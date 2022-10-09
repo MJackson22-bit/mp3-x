@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menuBottomMusic"
+        android:tooltipText="Music"
+        android:title="@string/music"
+        android:icon="@drawable/ic_baseline_music_note_24"/>
+    <item android:id="@+id/menuBottomSearch"
+        android:tooltipText="Search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_baseline_search_24"/>
+    <item android:id="@+id/menuBottomLibrary"
+        android:tooltipText="Library"
+        android:title="@string/library"
+        android:icon="@drawable/ic_baseline_library_music_24"/>
+</menu>
