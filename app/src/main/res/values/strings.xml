@@ -5,4 +5,5 @@
     <string name="library">Library</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="go_to_settings_and_accept_the_permissions">Go to Settings and accept the permissions</string>
 </resources>

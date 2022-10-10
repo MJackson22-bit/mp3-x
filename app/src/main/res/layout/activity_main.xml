@@ -19,6 +19,33 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_music"/>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layoutPermissionNoRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:clipToPadding="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:fontFamily="sans-serif-black"
+                android:textSize="28sp"
+                android:text="@string/go_to_settings_and_accept_the_permissions"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"

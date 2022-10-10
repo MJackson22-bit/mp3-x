@@ -19,15 +19,15 @@
         android:id="@+id/musicCurrent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/background"
+        android:background="#0B102B"
         app:layout_constraintTop_toBottomOf="@id/guidelineBottom"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivAlbumSelected"
-            android:layout_width="75dp"
+            android:layout_width="80dp"
             android:layout_height="0dp"
-            tools:src="@drawable/unknown_album"
+            tools:src="@drawable/avicii"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -57,7 +57,7 @@
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lavFavorite"
             android:layout_width="50dp"
-            android:layout_height="45dp"
+            android:layout_height="0dp"
             app:lottie_autoPlay="false"
             app:lottie_loop="false"
             app:lottie_repeatCount="0"
@@ -68,8 +68,8 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lavPlayPause"
-            android:layout_width="50dp"
-            android:layout_height="45dp"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
             app:lottie_autoPlay="false"
             app:lottie_loop="false"
             app:lottie_repeatCount="0"
