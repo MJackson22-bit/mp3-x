@@ -1,4 +1,4 @@
-package com.example.mp3x.view
+package com.example.mp3x.ui.main.view
 
 import android.Manifest
 import android.content.ContentUris
@@ -11,17 +11,20 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mp3x.adapter.MusicAdapter
 import com.example.mp3x.databinding.ActivityMainBinding
+import com.example.mp3x.ui.main.viewmodel.MainViewModel
 import com.example.mp3x.model.Music
 import com.example.mp3x.provider.ProviderMusic
 
 
 class MainActivity : AppCompatActivity() {
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: MusicAdapter
 
@@ -32,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         runtimePermission()
         initRecycler()
+        setObservers()
+    }
+
+    private fun setObservers() {
+
     }
 
     private fun initRecycler() {
@@ -61,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             requestPermission()
         }else{
-            displayMusic()
+            viewModel.displayMusic(this)
         }
     }
 
@@ -98,61 +106,6 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer.seekTo(mediaPlayer.currentPosition)
     }
 
-    private fun displayMusic() {
-        val audioProjection = arrayOf(
-            MediaStore.Audio.Media._ID,
-            MediaStore.Audio.Media.DATA,
-            MediaStore.Audio.Media.ARTIST,
-            MediaStore.Audio.Media.DATE_ADDED,
-            MediaStore.Audio.Media.SIZE,
-            MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.DISPLAY_NAME,
-            MediaStore.Audio.Media.ALBUM
-        )
-
-        val audioQuery = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val audioCursor = this.contentResolver?.query(audioQuery, audioProjection, null, null, null)
-
-        if (audioCursor != null && audioCursor.count > 0) {
-            if (audioCursor.moveToFirst()) {
-                val idColumn = audioCursor.getColumnIndex(MediaStore.Video.Media._ID)
-                val data = audioCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
-                val dateAddedColumn = audioCursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED)
-                val titleColumn = audioCursor.getColumnIndex(MediaStore.Video.Media.TITLE)
-                val displayName = audioCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
-                val artists = audioCursor.getColumnIndex( MediaStore.Audio.Media.ARTIST)
-                val size = audioCursor.getColumnIndex(MediaStore.Audio.Media.SIZE)
-                val album = audioCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)
-                do {
-                    val id = audioCursor.getLong(idColumn)
-                    val data = audioCursor.getString(data)
-                    val dateAdded = audioCursor.getString(dateAddedColumn)
-                    val name = audioCursor.getString(titleColumn)
-                    val nameWithFormat = audioCursor.getString(displayName)
-                    val artistName = audioCursor.getString(artists)
-                    val sizeSpace = audioCursor.getLong(size)
-                    val album = audioCursor.getString(album)
-                    val uri = ContentUris.withAppendedId(audioQuery,id)
-
-                    val music = Music(
-                        id = id,
-                        name = name,
-                        author = artistName,
-                        album = album,
-                        path = data,
-                        uri = uri
-                    )
-
-                    ProviderMusic.listMusic.add(music)
-
-
-                } while (audioCursor.moveToNext())
-            }
-            audioCursor.close()
-        }
-        Log.i("allMusics", ProviderMusic.listMusic.toString())
-    }
-
     private fun getDuration(uri: Uri): Long? {
         val retriever =  MediaMetadataRetriever()
         retriever.setDataSource(this, uri)
@@ -179,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode == 777){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                displayMusic()
+                viewModel.displayMusic(context = this)
             }else{
                 Toast.makeText(this, "Go to Settings and accept the permissions", Toast.LENGTH_SHORT).show()
             }

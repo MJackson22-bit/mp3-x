@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.music.view.MusicFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_music"
+        tools:itemCount="10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/musicCurrent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/musicCurrent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/background"
+        app:layout_constraintTop_toBottomOf="@id/guidelineBottom"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAlbumSelected"
+            android:layout_width="75dp"
+            android:layout_height="0dp"
+            tools:src="@drawable/unknown_album"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTitleMusic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            tools:text="Crossing Lines"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/lavFavorite"
+            app:layout_constraintStart_toEndOf="@id/ivAlbumSelected"
+            app:layout_constraintTop_toTopOf="@id/ivAlbumSelected"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvAuthorMusic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="GAMPER and DRAGON, Aiaya"
+            android:textColor="#D5D5D5"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/lavFavorite"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleMusic"
+            app:layout_constraintStart_toStartOf="@id/tvTitleMusic"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lavFavorite"
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:lottie_repeatCount="0"
+            app:lottie_rawRes="@raw/favorite"
+            tools:background="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/lavPlayPause"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lavPlayPause"
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:lottie_repeatCount="0"
+            app:lottie_rawRes="@raw/play_pause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

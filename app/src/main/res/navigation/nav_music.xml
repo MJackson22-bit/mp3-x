@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_music">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_music"
+    app:startDestination="@id/musicFragment">
 
+    <fragment
+        android:id="@+id/musicFragment"
+        android:name="com.example.mp3x.ui.music.view.MusicFragment"
+        android:label="fragment_music"
+        tools:layout="@layout/fragment_music">
+        <action
+            android:id="@+id/action_musicFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_musicFragment_to_searchMusicFragment"
+            app:destination="@id/searchMusicFragment" />
+        <action
+            android:id="@+id/action_musicFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.mp3x.ui.library.view.LibraryFragment"
+        android:label="fragment_library"
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_libraryFragment_to_searchMusicFragment"
+            app:destination="@id/searchMusicFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_musicFragment"
+            app:destination="@id/musicFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchMusicFragment"
+        android:name="com.example.mp3x.ui.search.view.SearchMusicFragment"
+        android:label="fragment_search_music"
+        tools:layout="@layout/fragment_search_music" >
+        <action
+            android:id="@+id/action_searchMusicFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_searchMusicFragment_to_musicFragment"
+            app:destination="@id/musicFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/musicDetailFragment"
+        android:name="com.example.mp3x.ui.musicdetail.view.MusicDetailFragment"
+        android:label="fragment_music_detail"
+        tools:layout="@layout/fragment_music_detail" >
+        <action
+            android:id="@+id/action_musicDetailFragment_to_musicFragment"
+            app:destination="@id/musicFragment" />
+    </fragment>
 </navigation>
