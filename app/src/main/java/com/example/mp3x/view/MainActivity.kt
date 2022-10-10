@@ -3,9 +3,9 @@ package com.example.mp3x.view
 import android.Manifest
 import android.content.ContentUris
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.media.AudioManager
 import android.media.MediaMetadataRetriever
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -24,6 +24,8 @@ import com.example.mp3x.provider.ProviderMusic
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: MusicAdapter
+
+    private var mediaPlayer = MediaPlayer()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,7 +45,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onItemSelected(item: Music) {
-        Toast.makeText(this, item.name, Toast.LENGTH_SHORT).show()
+        val uri = Uri.parse(item.uri.toString())
+        if(mediaPlayer.isPlaying){
+            mediaPlayer.release()
+        }
+        mediaPlayer = MediaPlayer().apply {
+            setAudioStreamType(AudioManager.STREAM_MUSIC)
+            setDataSource(applicationContext, uri)
+            prepare()
+            start()
+        }
     }
 
     private fun runtimePermission() {
@@ -52,6 +63,39 @@ class MainActivity : AppCompatActivity() {
         }else{
             displayMusic()
         }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val pos = savedInstanceState.getInt("posicion")
+        mediaPlayer.seekTo(pos)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val pos = mediaPlayer.currentPosition
+        outState.putInt("posicion", pos)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer.start()
+        runtimePermission()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mediaPlayer.seekTo(mediaPlayer.currentPosition)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        mediaPlayer.seekTo(mediaPlayer.currentPosition)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.seekTo(mediaPlayer.currentPosition)
     }
 
     private fun displayMusic() {
@@ -90,7 +134,14 @@ class MainActivity : AppCompatActivity() {
                     val album = audioCursor.getString(album)
                     val uri = ContentUris.withAppendedId(audioQuery,id)
 
-                    val music = Music(name, artistName, album, data)
+                    val music = Music(
+                        id = id,
+                        name = name,
+                        author = artistName,
+                        album = album,
+                        path = data,
+                        uri = uri
+                    )
 
                     ProviderMusic.listMusic.add(music)
 
@@ -111,10 +162,6 @@ class MainActivity : AppCompatActivity() {
         return timeMilliSec
     }
 
-    override fun onResume() {
-        super.onResume()
-        runtimePermission()
-    }
 
     private fun requestPermission() {
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){

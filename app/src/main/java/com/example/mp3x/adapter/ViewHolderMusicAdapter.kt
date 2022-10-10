@@ -28,6 +28,9 @@ class ViewHolderMusicAdapter(view: View) : ViewHolder(view){
         itemView.setOnClickListener {
             onClickListener(item)
         }
+        binding.lavFavorite.setOnClickListener {
+            binding.lavFavorite.playAnimation()
+        }
     }
 
     private fun getAlbumImage(path: String): Bitmap? {

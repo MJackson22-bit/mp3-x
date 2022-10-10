@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="6dp"
-    android:background="#353535"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="@drawable/ripple_drawable"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <androidx.appcompat.widget.AppCompatImageView
