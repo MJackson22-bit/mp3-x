@@ -16,19 +16,21 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTitleMusic"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         tools:text="Crossing Lines"
         android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@id/lavFavorite"
         app:layout_constraintStart_toEndOf="@id/ivAlbum"
         app:layout_constraintTop_toTopOf="@id/ivAlbum"/>
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvAuthorMusic"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="GAMPER and DRAGON, Aiaya"
         android:textColor="#D5D5D5"
+        app:layout_constraintEnd_toStartOf="@id/lavFavorite"
         app:layout_constraintTop_toBottomOf="@id/tvTitleMusic"
         app:layout_constraintStart_toStartOf="@id/tvTitleMusic"/>
     <androidx.appcompat.widget.AppCompatImageView

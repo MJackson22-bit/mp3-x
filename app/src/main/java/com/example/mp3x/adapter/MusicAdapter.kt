@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import com.example.mp3x.R
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mp3x.model.Music
+import java.io.File
 
 class MusicAdapter(
     private val listMusic: MutableList<Music>,
@@ -21,6 +22,10 @@ class MusicAdapter(
     override fun onBindViewHolder(holder: ViewHolderMusicAdapter, position: Int) {
         val item = listMusic[position]
         holder.render(item, onClickListener)
+    }
+
+    fun updateList(listMusic: MutableList<File>){
+
     }
 
     override fun getItemCount() = listMusic.size
