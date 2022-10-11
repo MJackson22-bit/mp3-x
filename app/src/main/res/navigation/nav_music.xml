@@ -18,7 +18,13 @@
             app:destination="@id/searchMusicFragment" />
         <action
             android:id="@+id/action_musicFragment_to_musicDetailFragment"
-            app:destination="@id/musicDetailFragment" />
+            app:destination="@id/musicDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/carbon_popup_show"
+            app:popExitAnim="@anim/carbon_popup_hide" />
+        <argument android:name="musicId"
+            app:argType="long"/>
     </fragment>
     <fragment
         android:id="@+id/libraryFragment"
@@ -52,5 +58,7 @@
         <action
             android:id="@+id/action_musicDetailFragment_to_musicFragment"
             app:destination="@id/musicFragment" />
+        <argument android:name="musicId"
+            app:argType="long"/>
     </fragment>
 </navigation>

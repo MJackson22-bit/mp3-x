@@ -1,5 +1,6 @@
 package com.example.mp3x.ui.music.view
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.AudioManager
@@ -7,23 +8,32 @@ import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mp3x.R
 import com.example.mp3x.adapter.MusicAdapter
 import com.example.mp3x.databinding.FragmentMusicBinding
 import com.example.mp3x.model.Music
 import com.example.mp3x.provider.ProviderMusic
+import com.example.mp3x.ui.main.viewmodel.MainViewModel
 import com.example.mp3x.ui.music.viewmodel.MusicViewModel
+import com.example.mp3x.ui.musicdetail.view.MusicDetailFragmentDirections
 
 class MusicFragment : Fragment() {
     private val viewModel: MusicViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
     private var _binding: FragmentMusicBinding? = null
     private val binding get() = _binding!!
+    private var musicCurrent: Music? = null
 
     private lateinit var adapter: MusicAdapter
     private var mediaPlayer = MediaPlayer()
@@ -41,7 +51,8 @@ class MusicFragment : Fragment() {
         initRecycler()
         setObservers()
         setListener()
-        viewModel.displayMusic(requireContext())
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        viewModel.displayMusic(requireContext(), mainViewModel)
     }
 
     private fun setListener() {
@@ -50,6 +61,10 @@ class MusicFragment : Fragment() {
         }
         binding.lavFavorite.setOnClickListener {
             binding.lavFavorite.playAnimation()
+        }
+        binding.musicCurrent.setOnClickListener {
+            val action = MusicFragmentDirections.actionMusicFragmentToMusicDetailFragment(musicCurrent?.id!!)
+            view?.findNavController()?.navigate(action)
         }
     }
 
@@ -79,6 +94,7 @@ class MusicFragment : Fragment() {
     }
 
     private fun onItemSelected(item: Music) {
+        musicCurrent = item
         val uri = Uri.parse(item.uri.toString())
         if(mediaPlayer.isPlaying){
             mediaPlayer.release()
@@ -117,6 +133,8 @@ class MusicFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mediaPlayer.start()
+        if(musicCurrent != null){
+            configureToolsReproduce(musicCurrent!!)
+        }
     }
 }

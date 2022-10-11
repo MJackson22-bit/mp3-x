@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<carbon.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.music.view.MusicFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:listitem="@layout/item_music"
-        tools:itemCount="10"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/musicCurrent"/>
+        app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <carbon.beta.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:carbon_theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
+            <carbon.beta.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:contentScrim="#0B102B">
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:layout_collapseMode="pin"/>
+
+                <carbon.widget.Button
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:background="@color/white"
+                    android:elegantTextHeight="true"
+                    android:text="@string/shuffle_play"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    app:carbon_cornerRadius="20dp"
+                    app:layout_collapseMode="pin"/>
+
+            </carbon.beta.CollapsingToolbarLayout>
+        </carbon.beta.AppBarLayout>
+
+        <carbon.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/item_music"
+            tools:itemCount="10"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <carbon.widget.ConstraintLayout
         android:id="@+id/musicCurrent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -25,7 +61,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivAlbumSelected"
-            android:layout_width="80dp"
+            android:layout_width="55dp"
             android:layout_height="0dp"
             tools:src="@drawable/avicii"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +98,6 @@
             app:lottie_loop="false"
             app:lottie_repeatCount="0"
             app:lottie_rawRes="@raw/favorite"
-            tools:background="@color/white"
             app:layout_constraintEnd_toStartOf="@id/lavPlayPause"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -77,12 +112,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </carbon.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:elevation="20dp"
+        app:layout_constraintTop_toTopOf="@id/guidelineBottom"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintGuide_percent="0.91"/>
+</carbon.widget.ConstraintLayout>

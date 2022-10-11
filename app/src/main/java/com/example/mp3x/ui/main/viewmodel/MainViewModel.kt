@@ -13,7 +13,14 @@ class MainViewModel : ViewModel(){
     private val mIsPermission = MutableLiveData(false)
     val isPermission get() = mIsPermission
 
+    private val mListMusic = MutableLiveData(mutableListOf<Music>())
+    val listMusic get() = mListMusic
+
     fun setPermission(permission: Boolean){
         mIsPermission.postValue(permission)
+    }
+
+    fun addAllMusic(songs: MutableList<Music>){
+        mListMusic.postValue(songs)
     }
 }

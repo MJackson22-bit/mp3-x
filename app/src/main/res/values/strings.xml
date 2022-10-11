@@ -6,4 +6,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="go_to_settings_and_accept_the_permissions">Go to Settings and accept the permissions</string>
+    <string name="your_songs">Your songs</string>
+    <string name="shuffle_play">Shuffle play</string>
 </resources>

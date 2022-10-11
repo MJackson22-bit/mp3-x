@@ -7,9 +7,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.mp3x.model.Music
 import com.example.mp3x.provider.ProviderMusic
+import com.example.mp3x.ui.main.viewmodel.MainViewModel
 
 class MusicViewModel : ViewModel() {
-    fun displayMusic(context: Context) {
+    fun displayMusic(context: Context, mainViewModel: MainViewModel) {
         val audioProjection = arrayOf(
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.DATA,
@@ -61,6 +62,6 @@ class MusicViewModel : ViewModel() {
             }
             audioCursor.close()
         }
-        Log.i("allMusics", ProviderMusic.listMusic.toString())
+        mainViewModel.addAllMusic(ProviderMusic.listMusic)
     }
 }
