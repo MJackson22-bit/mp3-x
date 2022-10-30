@@ -8,22 +8,19 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.mp3x.databinding.ActivityMainBinding
+import com.example.mp3x.ui.base.BaseActivity
 import com.example.mp3x.ui.main.viewmodel.MainViewModel
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         runtimePermission()
         setObservers()
         setListener()
@@ -85,4 +82,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 }

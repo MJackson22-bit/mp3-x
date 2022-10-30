@@ -3,52 +3,62 @@ package com.example.mp3x.ui.musicdetail.view
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
-import androidx.lifecycle.ViewModelProvider
+import android.media.MediaPlayer
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavArgs
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mp3x.R
 import com.example.mp3x.databinding.FragmentMusicDetailBinding
 import com.example.mp3x.model.Music
+import com.example.mp3x.ui.base.BaseFragment
 import com.example.mp3x.ui.main.viewmodel.MainViewModel
 import com.example.mp3x.ui.musicdetail.viewmodel.MusicDetailViewModel
+import com.google.android.material.slider.Slider
 
-class MusicDetailFragment : Fragment() {
+class MusicDetailFragment : BaseFragment<FragmentMusicDetailBinding>(FragmentMusicDetailBinding::inflate), Slider.OnChangeListener {
 
     private val viewModel: MusicDetailViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
     private val args: MusicDetailFragmentArgs by navArgs()
     private var music: Music? = null
 
-    private var _binding: FragmentMusicDetailBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMusicDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findMusic()
+        setListener()
+    }
+
+    private fun setListener() {
+        binding.lavPlayPause.setOnClickListener {
+            Log.i("duration", mainViewModel.musicPlaying.value?.currentPosition.toString())
+        }
+        binding.btnBackPressed.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun findMusic(){
         mainViewModel.listMusic.value?.forEach {
             if(args.musicId == it.id){
                 setMusic(it)
+                initializeSeekbar()
                 return@forEach
             }
         }
+    }
+
+    private fun initializeSeekbar() {
+        binding.sliderProgressMusic.addOnChangeListener(this)
+        binding.sliderProgressMusic.valueFrom = 0f
+        binding.sliderProgressMusic.valueTo = getDuration(mainViewModel.musicPlaying.value!!) / 60
+    }
+
+    private fun getDuration(player: MediaPlayer): Float{
+        return player.duration / 1000f;
     }
 
     private fun setMusic(music: Music){
@@ -67,5 +77,10 @@ class MusicDetailFragment : Fragment() {
         mmr.setDataSource(path)
         val data = mmr.embeddedPicture
         return if (data != null) BitmapFactory.decodeByteArray(data, 0, data.size) else null
+    }
+
+    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+        val secs = (value * 1000) * 60
+        mainViewModel.musicPlaying.value?.seekTo(secs.toInt())
     }
 }
